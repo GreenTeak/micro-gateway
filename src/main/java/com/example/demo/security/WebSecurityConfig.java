@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user").permitAll()
                 .antMatchers(HttpMethod.GET, "/health").permitAll()
+                .antMatchers("/hystrix*/**","/webjars/**","/*.stream/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(todoFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoints);

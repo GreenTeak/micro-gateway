@@ -48,10 +48,10 @@ dependencies {
 	runtime('com.h2database:h2')
 	compile('org.springframework.cloud:spring-cloud-starter-feign')
 	testCompile('org.springframework.security:spring-security-test')
-	compile('org.springframework.cloud:spring-cloud-starter-consul-discovery')
-
 	compile('org.springframework.cloud:spring-cloud-starter-zuul')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile('org.springframework.cloud:spring-cloud-starter-hystrix')
+	compile('org.springframework.cloud:spring-cloud-starter-hystrix-dashboard')
 }
 
 dependencyManagement {

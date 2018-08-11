@@ -1,24 +1,28 @@
 
-spring:
-  application:
-    name: gateway
-  cloud:
-    consul:
-      host: consul
-      port: 8500
-      discovery:
-        instance-id: ${spring.application.name}:${random.int}
+#spring:
+#  application:
+#    name: gateway
+#  cloud:
+#    consul:
+#      host: consul
+#      port: 8500
+#      discovery:
+#        instance-id: ${spring.application.name}:${random.int}
 
 server:
   port: 8080
 
-#ribbon:
-#  eureka:
-#    enabled: false
-#
-#use-service:
-#  ribbon:
-#    listOfServers: localhost:8081,localhost:8001
+ribbon:
+  eureka:
+    enabled: false
+
+user-service:
+  ribbon:
+    listOfServers: 127.0.0.1:8081
+
+todo-service:
+  ribbon:
+    listOfServers: 127.0.0.1:8082
 
 zuul:
   sensitiveHeaders: Cookie,Set-Cookie
@@ -29,19 +33,19 @@ zuul:
   routes:
     user:
       path: /user/**
-      serviceId: use-service
+      serviceId: user-service
       stripPrefix: false
     login:
       path: /login/**
-      serviceId: use-service
+      serviceId: user-service
       stripPrefix: false
     verifications:
       path: verifications/**
-      url: http://127.0.0.1:8081
+      url: user-service
       stripPrefix: false
     todos:
       path: /todos/**
-      url: http://127.0.0.1:8082
+      url: todo-service
       stripPrefix: false
 
 logging:
