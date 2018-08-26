@@ -57,15 +57,15 @@ public class TodoFilter extends OncePerRequestFilter {
                     String newToken = validateToken();
                     SecurityContextHolder.getContext()
                             .setAuthentication(
-                                    new UsernamePasswordAuthenticationToken(name,
+                                    new UsernamePasswordAuthenticationToken("user",
                                             null, Collections.emptyList()));
 
                     RequestContext.getCurrentContext().addZuulRequestHeader(HttpHeaders.AUTHORIZATION, newToken);
 
                 }
             } catch (RuntimeException e) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, String.format("Auntntication failed"));
-                return;
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, String.format("todo Auntntication failed"));
+                //return;
             }
         }
         filterChain.doFilter(request, response);

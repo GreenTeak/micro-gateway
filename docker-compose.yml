@@ -3,3 +3,72 @@ version: "3"
 networks:
   todo:
 
+services:
+  mysql:
+    image: coney/mysql:5
+    deploy:
+      replicas: 1
+      restart_policy:
+        delay: 10s
+    networks:
+      todo:
+        aliases:
+        - mysql
+    ports:
+    - "3306:3306"
+  config-server:
+    image: greenteak1992/config-server:1
+    deploy:
+      replicas: 1
+      restart_policy:
+        delay: 10s
+    networks:
+      todo:
+        aliases:
+        - config-server
+    ports:
+    - "8099:8099"
+  gateway:
+    image: greenteak1992/gateway:lastest
+    deploy:
+      replicas: 1
+      restart_policy:
+        delay: 10s
+    networks:
+      todo:
+        aliases:
+        - gateway
+    ports:
+    - "8080:8080"
+  user-service:
+    image: greenteak1992/user-service:lastest
+    deploy:
+      replicas: 2
+      restart_policy:
+        delay: 10s
+    depends_on:
+    - mysql
+    networks:
+      todo:
+        aliases:
+        - user-service
+    ports:
+    - "8081:8081"
+    environment:
+    - SPRING_PROFILES_ACTIVE=default
+  todo-service:
+    image: greenteak1992/todo-service:lastest
+    deploy:
+      replicas: 2
+      restart_policy:
+        delay: 10s
+    depends_on:
+    - mysql
+    networks:
+      todo:
+        aliases:
+        - todo-service
+    ports:
+    - "8082:8082"
+    environment:
+    - SPRING_PROFILES_ACTIVE=default
